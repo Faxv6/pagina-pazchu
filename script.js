@@ -175,6 +175,56 @@ if (quoteForm) {
     });
 }
 
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const btn = contactForm.querySelector('button');
+        const originalText = btn.innerText;
+        btn.innerText = "Enviando...";
+        btn.disabled = true;
+
+        const formData = new FormData(contactForm);
+        let response;
+
+        try {
+            response = await fetch(contactForm.action, {
+                method: contactForm.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const successMsg = document.getElementById('contact-success');
+                if (successMsg) successMsg.style.display = "block";
+                contactForm.reset();
+                setTimeout(() => {
+                    if (successMsg) successMsg.style.display = "none";
+                }, 5000);
+            } else {
+                btn.style.background = "#e74c3c";
+                btn.style.color = "white";
+                btn.innerText = "Error. Intentá de nuevo.";
+            }
+        } catch (error) {
+            btn.style.background = "#e74c3c";
+            btn.style.color = "white";
+            btn.innerText = "Error inesperado.";
+        }
+
+        // Restaurar botón (por si hubo error, o incluso si fue exitoso para poder enviar otro luego de unos segundos)
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "";
+            btn.style.color = "";
+            btn.disabled = false;
+        }, 4000);
+    });
+}
+
 // 6. Horizontal Scroll Timeline Logic (Adaptable Mobile/Desktop)
 const processScrollArea = document.querySelector('.process-scroll-area');
 const timelineTrack = document.getElementById('timelineTrack');
@@ -232,5 +282,49 @@ if (processScrollArea && timelineTrack) {
                 item.classList.remove('active');
             }
         });
+    });
+}
+
+// 7. Lightbox de Galería
+const masonryItems = document.querySelectorAll('.masonry-item img');
+
+if (masonryItems.length > 0) {
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox-modal';
+
+    const lightboxImg = document.createElement('img');
+    lightboxImg.className = 'lightbox-content';
+
+    const closeBtn = document.createElement('span');
+    closeBtn.className = 'lightbox-close';
+    closeBtn.innerHTML = '&times;';
+
+    lightbox.appendChild(closeBtn);
+    lightbox.appendChild(lightboxImg);
+    document.body.appendChild(lightbox);
+
+    const closeLightbox = () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    };
+
+    masonryItems.forEach(img => {
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
     });
 }

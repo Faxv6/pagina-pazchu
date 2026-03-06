@@ -287,8 +287,9 @@ header.scrolled .btn-nav:hover {
 /* Secciones */
 .section {
     min-height: 100vh;
-    padding: 4rem 0;
-    /* Minimal padding to prevent content from touching edges */
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    /* Minimal top/bottom padding */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -683,14 +684,14 @@ header.scrolled .btn-nav:hover {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 1.5rem;
-    align-items: stretch;
+    align-items: center;
 }
 
 .collage-col img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    /* Allow aspect-ratio to dictate the height cleanly */
     object-fit: cover;
-    object-position: top center;
     border-radius: 8px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
 }
@@ -980,8 +981,9 @@ footer {
 /* Project Detail Page Styles */
 .project-hero {
     position: relative;
-    height: 80vh;
-    min-height: 500px;
+    height: 65vh;
+    /* Reduced from 80vh to show less vertical cut, revealing more of wide house photos */
+    min-height: 450px;
     display: flex;
     align-items: flex-end;
     padding-bottom: 4rem;
@@ -996,8 +998,16 @@ footer {
     height: 100%;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    /* 'fixed' removed because it calculates zoom against total scroll height, creating extreme fake-zooms on many screens */
     z-index: 1;
+}
+
+/* Allow physical img tags inside the bg for precise object-fit control */
+.project-hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .project-hero-bg::after {
@@ -1089,37 +1099,92 @@ footer {
 
 /* Masonry Gallery */
 .masonry-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-auto-rows: 250px;
-    grid-auto-flow: dense;
-    gap: 1.5rem;
+    column-count: 2;
+    /* 2 columns for tablet */
+    column-gap: 1.5rem;
     margin-top: 3rem;
 }
 
+@media (min-width: 993px) {
+    .masonry-gallery {
+        column-count: 3;
+        /* 3 columns for desktop */
+    }
+}
+
 .masonry-item {
-    border-radius: 4px;
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
     overflow: hidden;
     position: relative;
+    cursor: zoom-in;
+    /* Indicate interactivity */
 }
 
 .masonry-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    height: auto;
+    /* Allow natural heights without distorting or clipping */
+    display: block;
+    transition: transform 0.4s ease;
 }
 
 .masonry-item:hover img {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
-.masonry-item.tall {
-    grid-row: span 2;
+/* Lightbox Modal */
+.lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(20, 20, 20, 0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
 
-.masonry-item.wide {
-    grid-column: span 2;
+.lightbox-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.lightbox-modal.active .lightbox-content {
+    transform: scale(1);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: var(--warm-white);
+    font-size: 3rem;
+    cursor: pointer;
+    transition: var(--transition);
+    line-height: 1;
+    font-weight: 300;
+}
+
+.lightbox-close:hover {
+    color: var(--light-beige);
+    transform: scale(1.1);
 }
 
 
@@ -1168,6 +1233,15 @@ header.scrolled .mobile-menu-toggle {
 /* --- MEDIA QUERIES MEJORADOS --- */
 @media (max-width: 768px) {
 
+    body {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 0 1.5rem;
+    }
+
     /* Mostrar Menú Hamburguesa */
     .mobile-menu-toggle {
         display: block;
@@ -1190,6 +1264,8 @@ header.scrolled .mobile-menu-toggle {
         transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
         z-index: 1001;
+        display: flex;
+        /* Override old hide logic */
     }
 
     .nav-links.active {
@@ -1214,8 +1290,66 @@ header.scrolled .mobile-menu-toggle {
         color: var(--soft-black);
     }
 
+    /* General Typography & Spacing */
+    .about-text h2,
+    .contact-info h2,
+    .project-hero h1,
+    .hero h1 {
+        font-size: clamp(2.2rem, 4vw, 3rem);
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    .section {
+        padding-top: 4.5rem;
+        padding-bottom: 4.5rem;
+    }
+
+    .quote-box {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .quote-section {
+        margin-top: -2rem;
+        margin-bottom: 3rem;
+    }
+
+    .about-text {
+        text-align: left;
+    }
+
+    .about-text .subtitle {
+        margin-bottom: 0.8rem;
+    }
+
+    .about-text h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .about-img {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .masonry-gallery {
+        column-count: 1;
+    }
+
+    .project-description {
+        padding: 0;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
     /* --- SOLUCIÓN AL SCROLL HORIZONTAL EN MÓVILES --- */
-    /* Apilamos las tarjetas verticalmente y eliminamos el hack del 1000vh */
     .process-scroll-area {
         height: auto !important;
         padding: 5rem 0;
@@ -1250,111 +1384,6 @@ header.scrolled .mobile-menu-toggle {
         text-align: center;
     }
 
-    .horizontal-items {
-        flex-direction: column;
-        gap: 2rem;
-        padding-left: 0;
-    }
-
-    .h-item {
-        width: 100%;
-        transform: none !important;
-        /* Quita el salto brusco */
-        opacity: 1;
-        /* Siempre visible */
-        margin-right: 0;
-    }
-}
-
-@media (max-width: 768px) {
-    body {
-        max-width: 100vw;
-        overflow-x: hidden;
-    }
-
-    .container {
-        padding: 0 1.5rem;
-    }
-
-    .masonry-gallery {
-        grid-template-columns: 1fr;
-        grid-auto-rows: 300px;
-    }
-
-    .project-description {
-        padding: 0 1rem;
-    }
-
-    .masonry-item.wide {
-        grid-column: span 1;
-    }
-
-    .quote-box {
-        padding: 2.5rem 1.5rem;
-    }
-
-    .quote-section {
-        margin-top: -2rem;
-        /* Much smoother transition */
-        margin-bottom: 3rem;
-    }
-
-    .about-text h2,
-    .contact-info h2,
-    .project-hero h1 {
-        font-size: clamp(2.2rem, 4vw, 3rem);
-    }
-
-    /* Softer about adjustments - kept left aligned instead of drastic center */
-    .about-text {
-        text-align: left;
-    }
-
-    .about-text .subtitle {
-        margin-bottom: 0.8rem;
-    }
-
-    .about-text h2 {
-        font-size: 2.2rem;
-        margin-bottom: 1.2rem;
-    }
-
-    .about-img {
-        width: 100%;
-        margin-top: 1rem;
-    }
-
-    .nav-links {
-        display: none;
-        color: var(--soft-black);
-    }
-
-    .hero h1 {
-        font-size: 2.8rem;
-        /* Softer scaling */
-        margin-bottom: 1rem;
-    }
-
-    .hero p {
-        font-size: 1.1rem;
-    }
-
-    .section {
-        padding: 4.5rem 0;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        gap: 1.5rem;
-        text-align: center;
-    }
-
-    /* Horizontal Scroll Responsive */
-    .process-scroll-area {
-        height: 1000vh;
-        /* More scroll space for mobile screens */
-    }
-
     .intro-title {
         font-size: 3.5rem;
         white-space: normal;
@@ -1366,13 +1395,8 @@ header.scrolled .mobile-menu-toggle {
         text-align: center;
     }
 
-    .horizontal-stage.intro-stage {
-        margin-right: 40vw;
-    }
-
     .timeline-progress-bar {
         display: none;
-        /* Hide progress line on mobile as it's visually messy with small cards */
     }
 
     .stage-header {
@@ -1380,12 +1404,18 @@ header.scrolled .mobile-menu-toggle {
         margin-bottom: 2rem;
     }
 
+    .horizontal-items {
+        flex-direction: column;
+        gap: 2rem;
+        padding-left: 0;
+    }
+
     .h-item {
-        width: 85vw;
-        /* Maximize card width on mobile */
+        width: 100%;
+        transform: none !important;
+        opacity: 1;
+        margin-right: 0;
         padding: 2rem;
-        margin-right: -5vw;
-        /* Tighten up horizontal space */
     }
 
     .h-item h3 {
@@ -1394,15 +1424,6 @@ header.scrolled .mobile-menu-toggle {
 
     .h-item p {
         font-size: 1rem;
-    }
-
-    .horizontal-items {
-        gap: 10vw;
-        padding-left: 0;
-    }
-
-    .timeline-track {
-        padding: 0 15vw 0 5vw;
     }
 
     .hide-mobile {

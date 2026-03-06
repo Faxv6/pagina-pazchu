@@ -90,14 +90,11 @@
                 </div>
                 <div class="about-collage reveal">
                     <div class="collage-col">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400"
-                            alt="Retrato de Paz Santino" class="img-main">
+                        <img src="assets/images/20251012_133445 (1).jpg" alt="Retrato de Paz Santino" class="img-main">
                     </div>
                     <div class="collage-col collage-stack">
-                        <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=400"
-                            alt="Detalle de texturas">
-                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=400"
-                            alt="Bocetos de arquitectura">
+                        <img src="assets/images/20251012_133445-_1_.webp" alt="Detalle de texturas">
+                        <img src="assets/images/20251012_133445-_1_.webp" alt="Bocetos de arquitectura">
                     </div>
                 </div>
             </div>
@@ -107,20 +104,26 @@
             <div class="container">
                 <h2 class="text-center reveal">Mis Proyectos Seleccionados</h2>
                 <div class="projects-grid">
-                    <a href="project-detail.html" class="project-item reveal">
-                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800"
-                            alt="Proyecto Casa Calma">
-                        <div class="overlay"><span>Casa Calma</span></div>
+                    <a href="casa-lagos.html" class="project-item reveal">
+                        <img src="assets/images/CasaLagos/01.jpg" alt="Proyecto Casa Lagos">
+                        <div class="overlay"><span>Casa Lagos</span></div>
                     </a>
-                    <a href="project-detail.html" class="project-item reveal">
-                        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800"
-                            alt="Proyecto Refugio del Bosque">
-                        <div class="overlay"><span>Refugio del Bosque</span></div>
+                    <a href="proyecto-pitagoras.html" class="project-item reveal">
+                        <img src="assets/images/ProyPitagoras/01.png" alt="Proyecto Pitágoras">
+                        <div class="overlay"><span>Proyecto Pitágoras</span></div>
                     </a>
-                    <a href="project-detail.html" class="project-item reveal">
-                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800"
-                            alt="Proyecto Reforma Centro">
-                        <div class="overlay"><span>Reforma Centro</span></div>
+                    <a href="reforma-viamonte.html" class="project-item reveal">
+                        <img src="assets/images/ProyViamonte/Enscape_2025-08-07-18-22-20.png" alt="Proyecto Viamonte">
+                        <div class="overlay"><span>Reforma Viamonte</span></div>
+                    </a>
+                    <a href="mpl-araoz.html" class="project-item reveal">
+                        <img src="assets/images/MPLAraoz/05.jpg" alt="Proyecto MPL Aráoz">
+                        <div class="overlay"><span>MPL Aráoz</span></div>
+                    </a>
+                    <a href="proyecto-mono-ce.html" class="project-item reveal">
+                        <img src="assets/images/ProyMonoambiente/Enscape_2026-02-23-12-00-46.png"
+                            alt="Proyecto Mono Ce">
+                        <div class="overlay"><span>Proyecto Mono Ce</span></div>
                     </a>
                 </div>
             </div>
@@ -202,7 +205,7 @@
                         <p>Contame un poco para ofrecerte una cotización personalizada.</p>
                     </div>
 
-                    <form id="quoteForm" class="interactive-form" action="https://formspree.io/f/xdalqvyy"
+                    <form id="quoteForm" class="interactive-form" action="https://formspree.io/f/meerjkkq"
                         method="POST">
                         <div class="form-group service-options">
                             <label class="service-card">
@@ -306,11 +309,16 @@
                     </a>
                     <p class="email-text">arq.santino@gmail.com</p>
                 </div>
-                <form class="contact-form reveal">
-                    <input type="text" placeholder="Nombre" required>
-                    <input type="email" placeholder="Email" required>
-                    <textarea placeholder="Mensaje" rows="5"></textarea>
+                <form id="contactForm" class="contact-form reveal" action="https://formspree.io/f/meerjkkq"
+                    method="POST">
+                    <input type="text" name="nombre" placeholder="Nombre" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <textarea name="mensaje" placeholder="Mensaje" rows="5" required></textarea>
                     <button type="submit" class="btn-primary">Enviar Mensaje</button>
+                    <div id="contact-success"
+                        style="display: none; color: #25D366; margin-top: 1rem; font-weight: 500;">
+                        ¡Gracias! Tu mensaje ha sido enviado correctamente.
+                    </div>
                 </form>
             </div>
         </section>
