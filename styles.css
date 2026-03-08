@@ -688,10 +688,10 @@ header.scrolled .btn-nav:hover {
 }
 
 .collage-col img {
+    display: block;
     width: 100%;
-    height: auto;
-    /* Allow aspect-ratio to dictate the height cleanly */
     object-fit: cover;
+    object-position: center 20%;
     border-radius: 8px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
 }
@@ -704,6 +704,7 @@ header.scrolled .btn-nav:hover {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    justify-content: center;
 }
 
 .collage-stack img {
