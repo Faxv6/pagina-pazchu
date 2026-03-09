@@ -188,7 +188,7 @@ header.scrolled .btn-nav:hover {
 /* Hero */
 .hero {
     height: 100vh;
-    background: url('assets/images/Paz/hero_bg.png');
+    background: url('assets/images/Paz/hero_bg.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
