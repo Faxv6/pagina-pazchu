@@ -1,3 +1,11 @@
+// 0. Fix para altura 100vh en móviles (evita saltos por la barra de navegación)
+function updateVH() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+window.addEventListener('resize', updateVH);
+updateVH();
+
 // 1. Cambio de estilo del Header al hacer scroll
 window.addEventListener('scroll', () => {
     const header = document.getElementById('main-header');

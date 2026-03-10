@@ -1313,6 +1313,15 @@ header.scrolled .mobile-menu-toggle {
         margin-bottom: 1rem;
     }
 
+    .hero {
+        background-attachment: scroll;
+        background-position: center bottom;
+        /* Better for portrait portraits */
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+        /* Fix for mobile browser bars */
+    }
+
     .hero p {
         font-size: 1.1rem;
     }
@@ -1447,5 +1456,18 @@ header.scrolled .mobile-menu-toggle {
 
     .hide-mobile {
         display: none !important;
+    }
+}
+
+/* Extra Refinement para celulares muy pequeños */
+@media (max-width: 480px) {
+    .hero {
+        background-position: 65% bottom;
+        /* Ajuste para que se vea mejor el sujeto si está a un lado */
+        min-height: -webkit-fill-available;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
     }
 }
